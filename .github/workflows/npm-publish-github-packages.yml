@@ -20,23 +20,13 @@ jobs:
           node-version: 16
       - run: npm i
       - run: npm run build
-      - run: npm ci
-
-  publish-gpr:
-    needs: build
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v3
+      - name: Create Release and Upload Release Asset
+        uses: softprops/action-gh-release@v2
         with:
-          node-version: 16
-          registry-url: https://npm.pkg.github.com/
-      - run: npm i
-      - run: npm run build
-      - run: npm ci
-      - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          tag_name: prerelease
+          name: Release ${{ github.ref }}
+          body: TODO New Release.
+          draft: false
+          prerelease: true
+          files: |
+            list-viewer.zip
